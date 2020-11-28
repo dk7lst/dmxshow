@@ -1,10 +1,10 @@
 import socket
 
+# UDP-protocol for self-made Arduino interface
 class DMXUDP:
   def __init__(self, ip, port):
     self.ip = ip
     self.udpport = port
-    self.sock = None
     self.dmxbuf = bytearray(512)
     self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     self.reset()
@@ -20,5 +20,5 @@ class DMXUDP:
     self.dmxbuf[ch - 1] = val
 
   def flush(self):
-    #print ''.join(format(x, '02X') for x in self.dmxbuf)
+    #print(''.join(format(x, '02X') for x in self.dmxbuf))
     self.sock.sendto(self.dmxbuf, (self.ip, self.udpport))
