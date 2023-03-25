@@ -54,3 +54,36 @@ class Eurolite_LED_PT100:
 
   def setAll(self, r, g, b):
     for i in range(0, 16): self.set(i, r, g, b)
+
+# Fun Generation LED Diamond Dome MK II
+# uses 9 DMX channels
+class FunGeneration_LED_Diamond_Dome_MK_II:
+  def __init__(self, dmx, addr):
+    self.dmx = dmx
+    self.addr = addr
+
+  def clear(self):
+    self.set()
+
+  def set(self, r = 0, g = 0, b = 0, white = 0, amber = 0, uv = 0, strobe = 0, motor = 0, effect = 0):
+    # set color channels:
+    self.dmx.set(self.addr, r)
+    self.dmx.set(self.addr + 1, g)
+    self.dmx.set(self.addr + 2, b)
+    self.dmx.set(self.addr + 3, white)
+    self.dmx.set(self.addr + 4, amber)
+    self.dmx.set(self.addr + 5, uv)
+
+    # 0-9: Off; 10-255: strobe on, speed increasing
+    self.dmx.set(self.addr + 6, strobe)
+
+    # 0-5: motor off, static position; 6-127: motor position; 128-255: motor speed
+    self.dmx.set(self.addr + 7, motor)
+
+    #   0- 50: random effect
+    #  51-100: 2 colors switching, motor speed increasing
+    # 101-150: all colors switching, motor speed increasing
+    # 151-200: all colors crossfading, motor speed increasing
+    # 201-250: sound mode 1
+    # 251-255: sound mode 2
+    self.dmx.set(self.addr + 8, effect)
